@@ -1,0 +1,75 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "cloud bee",
+    "dateExported": "2024-01-25T12:38:46.278Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "39941bbf-e72b-405e-8468-a503a98c619b",
+            "colId": "c431b28d-d2ba-4970-854e-2134b418aa36",
+            "containerId": "",
+            "name": "create post",
+            "url": "localhost:8080/blog",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-01-25T10:40:36.407Z",
+            "modified": "2024-01-25T10:40:36.407Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"title\": \"new title\",\n  \"content\": \"content\",\n  \"author\": \"author\",\n  \"tags\": [\n    \"blog\",\n    \"top10\"\n  ]\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "6a631c58-ddea-4b51-89ec-b858c5f11e2a",
+            "colId": "c431b28d-d2ba-4970-854e-2134b418aa36",
+            "containerId": "",
+            "name": "read post",
+            "url": "localhost:8080/blog/3",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-01-25T10:40:57.726Z",
+            "modified": "2024-01-25T10:44:41.222Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "3ca8edcc-ff60-4223-aadd-d0c95eadd74d",
+            "colId": "c431b28d-d2ba-4970-854e-2134b418aa36",
+            "containerId": "",
+            "name": "delete post",
+            "url": "localhost:8080/blog/2",
+            "method": "DELETE",
+            "sortNum": 30000,
+            "created": "2024-01-25T10:43:06.154Z",
+            "modified": "2024-01-25T10:43:06.154Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "a4fef849-5990-452f-8556-df4d81426633",
+            "colId": "c431b28d-d2ba-4970-854e-2134b418aa36",
+            "containerId": "",
+            "name": "update post",
+            "url": "localhost:8080/blog",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2024-01-25T11:27:04.713Z",
+            "modified": "2024-01-25T11:27:04.713Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\": 3,\n  \"title\": \"old title\",\n  \"content\": \"content\",\n  \"author\": \"author\",\n  \"tags\": [\n    \"blog\",\n    \"top10\"\n  ]\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}
