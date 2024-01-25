@@ -17,7 +17,9 @@ type server struct {
 }
 
 func NewBlogServer() *server {
-	return &server{}
+	return &server{
+		BlogPost: make(map[int32]*blog.Post),
+	}
 }
 
 func (s *server) CreateBlogPost(ctx context.Context, post *blog.Post) (*blog.Post, error) {
@@ -50,6 +52,7 @@ func (s *server) ReadBlogPost(ctx context.Context, id *blog.Id) (*blog.Post, err
 		log.Println("error at server read blog post")
 		return nil, errors.New("post with id " + string(id.PostId) + " does not exist")
 	}
+	log.Println(post)
 
 	return post, nil
 }
@@ -65,9 +68,12 @@ func (s *server) UpdateBlogPost(ctx context.Context, post *blog.Post) (*blog.Pos
 
 	if data, ok = s.BlogPost[post.PostId]; !ok {
 		log.Println("error at server update blog post")
+		log.Println(s.BlogPost)
+		log.Println(post)
+		log.Println(data)
+
 		return nil, errors.New("post with id " + string(post.PostId) + "does not exist")
 	}
-
 	post.PublicationData = data.PublicationData
 	s.BlogPost[post.PostId] = post
 

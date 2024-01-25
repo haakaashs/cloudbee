@@ -10,7 +10,7 @@ import (
 	"github.com/haakaashs/cloudbee/protos/blog"
 )
 
-func CreateBlogPost(client blog.BlogServiceClient, input models.Post) (int32, error) {
+func CreateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Post, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer func() {
 		if cancel != nil {
@@ -28,11 +28,12 @@ func CreateBlogPost(client blog.BlogServiceClient, input models.Post) (int32, er
 
 	if err != nil {
 		log.Println(err.Error())
-		return 0, err
+		return models.Post{}, err
 	}
 
-	log.Printf("response from the server: %v\n", res.PostId)
-	return res.PostId, nil
+	input.ID = res.PostId
+	log.Printf("response from the server: %v\n", res)
+	return input, nil
 }
 
 func ReadBlogPost(client blog.BlogServiceClient, id int32) (models.Post, error) {
@@ -49,13 +50,14 @@ func ReadBlogPost(client blog.BlogServiceClient, id int32) (models.Post, error) 
 		log.Println(err.Error())
 		return models.Post{}, err
 	}
-
+	log.Printf("response from the server: %v\n", res)
 	return models.Post{
 		ID:              res.PostId,
 		Title:           res.Title,
 		Content:         res.Content,
 		Author:          res.Author,
 		PublicationData: res.PublicationData,
+		Tags:            res.Tags,
 	}, nil
 }
 
@@ -74,6 +76,7 @@ func UpdateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Po
 	}
 
 	res, err := client.UpdateBlogPost(ctx, &blog.Post{
+		PostId:  input.ID,
 		Title:   input.Title,
 		Content: input.Content,
 		Author:  input.Author,
@@ -85,12 +88,14 @@ func UpdateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Po
 		return models.Post{}, err
 	}
 
+	log.Printf("response from the server: %v\n", res)
 	return models.Post{
 		ID:              res.PostId,
 		Title:           res.Title,
 		Content:         res.Content,
 		Author:          res.Author,
 		PublicationData: res.PublicationData,
+		Tags:            res.Tags,
 	}, nil
 }
 
@@ -109,5 +114,6 @@ func DeleteBlogPost(client blog.BlogServiceClient, id int32) (string, error) {
 		return res.Message, err
 	}
 
+	log.Printf("response from the server: %v\n", res)
 	return res.Message, nil
 }

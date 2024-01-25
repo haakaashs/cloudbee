@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	url  = "localhost:50001"
+	url  = ":50001"
 	port = ":8080"
 )
 
@@ -23,6 +23,8 @@ func main() {
 	}
 
 	defer conn.Close()
+
+	log.Println("client listening at port :50001......")
 
 	grpcservices.Client = blog.NewBlogServiceClient(conn)
 	// we can directly hit the server using client
@@ -35,6 +37,7 @@ func main() {
 	server.HandleFunc("/blog", grpcservices.UpdatePost).Methods("PUT")
 	server.HandleFunc("/blog/{id}", grpcservices.DeletePost).Methods("DELETE")
 
+	log.Println("rest server started listening at port :8080......")
 	if err = http.ListenAndServe(port, server); err != nil {
 		log.Fatalf("error starting rest web server at port %s", port)
 	}
