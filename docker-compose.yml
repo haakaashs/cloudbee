@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  cloudbee:
+    build:
+      context: .
+    image: cloudbee
+    ports:
+      - "8080:8080"
