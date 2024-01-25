@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package blog;
+
+option go_package = "github.com/haakaashs/cloudbee/protos/blog";
+
+message Post{
+    int32 post_id = 1;
+    string title = 2;
+    string content = 3;
+    string author = 4;
+    string publication_data = 5;
+    repeated string tags = 6;
+}
+
+message Id{
+    int32 post_id = 1;
+}
+
+message DeleteResponse{
+    string message = 1;
+}
+
+service BlogService{
+    rpc CreateBlogPost(Post) returns (Post);
+    rpc ReadBlogPost(Id) returns (Post);
+    rpc UpdateBlogPost(Post) returns (Post);
+    rpc DeleteBlogPost(Id) returns (DeleteResponse);
+}
