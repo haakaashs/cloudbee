@@ -26,7 +26,7 @@ func main() {
 
 	log.Printf("server listening on port: %s\n", port)
 	if err := ser.Serve(listener); err != nil {
-		log.Printf("unable to start the server: %s\n", port)
+		log.Fatalf("unable to start the server: %s\n", port)
 	}
 
 	defer func() {

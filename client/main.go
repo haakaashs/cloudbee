@@ -19,12 +19,12 @@ const (
 func main() {
 	conn, err := grpc.Dial(url, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
-		log.Fatalf("connection to server failed %v", err)
+		log.Fatalf("connection to server failed %v\n", err)
 	}
 
 	defer conn.Close()
 
-	log.Println("client listening at port :50001......")
+	log.Fatalf("client listening at port %s\n", url)
 
 	grpcservices.Client = blog.NewBlogServiceClient(conn)
 	// we can directly hit the server using client
@@ -39,6 +39,12 @@ func main() {
 
 	log.Println("rest server started listening at port :8080......")
 	if err = http.ListenAndServe(port, server); err != nil {
-		log.Fatalf("error starting rest web server at port %s", port)
+		log.Fatalf("error starting rest web server at port %s\n", port)
 	}
+
+	defer func() {
+		if recover := recover(); recover != nil {
+			log.Println("recovered form panic")
+		}
+	}()
 }

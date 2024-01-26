@@ -23,23 +23,30 @@ func NewBlogServer() *server {
 }
 
 func (s *server) CreateBlogPost(ctx context.Context, post *blog.Post) (*blog.Post, error) {
+	funcDesc := "CreateBlogPost"
+	log.Println("enter rest " + funcDesc)
 
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	if out, ok := s.BlogPost[post.PostId]; ok {
-		log.Println("error at server create blog post")
-		return out, errors.New("post already exist")
+		err := errors.New("post already exist")
+		log.Println(err.Error())
+		return out, err
 	}
 
 	s.counter++
 	post.PostId = s.counter
 	s.BlogPost[post.PostId] = post
 
+	log.Println("exit rest " + funcDesc)
 	return post, nil
 }
 
 func (s *server) ReadBlogPost(ctx context.Context, id *blog.Id) (*blog.Post, error) {
+	funcDesc := "ReadBlogPost"
+	log.Println("enter rest " + funcDesc)
+
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -49,14 +56,19 @@ func (s *server) ReadBlogPost(ctx context.Context, id *blog.Id) (*blog.Post, err
 	)
 
 	if post, ok = s.BlogPost[id.PostId]; !ok {
-		log.Println("error at server read blog post")
-		return nil, errors.New("post id does not exist")
+		err := errors.New("post id does not exist")
+		log.Println(err.Error())
+		return nil, err
 	}
 
+	log.Println("exit rest " + funcDesc)
 	return post, nil
 }
 
 func (s *server) UpdateBlogPost(ctx context.Context, post *blog.Post) (*blog.Post, error) {
+	funcDesc := "UpdateBlogPost"
+	log.Println("enter rest " + funcDesc)
+
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -66,24 +78,31 @@ func (s *server) UpdateBlogPost(ctx context.Context, post *blog.Post) (*blog.Pos
 	)
 
 	if data, ok = s.BlogPost[post.PostId]; !ok {
-		log.Println("error at server update blog post")
-		return nil, errors.New("post id does not exist")
+		err := errors.New("post id does not exist")
+		log.Println(err.Error())
+		return nil, err
 	}
 
 	post.PublicationData = data.PublicationData
 	s.BlogPost[post.PostId] = post
 
+	log.Println("exit rest " + funcDesc)
 	return post, nil
 }
 
 func (s *server) DeleteBlogPost(ctx context.Context, id *blog.Id) (*blog.DeleteResponse, error) {
+	funcDesc := "DeleteBlogPost"
+	log.Println("enter rest " + funcDesc)
+
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	if _, ok := s.BlogPost[id.PostId]; !ok {
-		log.Println("error at server delete blog post")
-		return &blog.DeleteResponse{Message: "Failure"}, errors.New("post id does not exist")
+		err := errors.New("post id does not exist")
+		log.Println(err.Error())
+		return &blog.DeleteResponse{Message: "Failure"}, err
 	}
 	delete(s.BlogPost, id.PostId)
+	log.Println("exit rest " + funcDesc)
 	return &blog.DeleteResponse{Message: "Success"}, nil
 }

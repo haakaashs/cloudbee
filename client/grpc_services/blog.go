@@ -11,6 +11,9 @@ import (
 )
 
 func CreateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Post, error) {
+	funcDesc := "CreateBlogPost"
+	log.Println("enter rest " + funcDesc)
+
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer func() {
 		if cancel != nil {
@@ -33,10 +36,14 @@ func CreateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Po
 
 	input.ID = res.PostId
 	log.Printf("response from the server: %v\n", res)
+	log.Println("exit rest " + funcDesc)
 	return input, nil
 }
 
 func ReadBlogPost(client blog.BlogServiceClient, id int32) (models.Post, error) {
+	funcDesc := "ReadBlogPost"
+	log.Println("enter rest " + funcDesc)
+
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer func() {
 		if cancel != nil {
@@ -51,6 +58,7 @@ func ReadBlogPost(client blog.BlogServiceClient, id int32) (models.Post, error) 
 		return models.Post{}, err
 	}
 	log.Printf("response from the server: %v\n", res)
+	log.Println("exit rest " + funcDesc)
 	return models.Post{
 		ID:              res.PostId,
 		Title:           res.Title,
@@ -62,6 +70,9 @@ func ReadBlogPost(client blog.BlogServiceClient, id int32) (models.Post, error) 
 }
 
 func UpdateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Post, error) {
+	funcDesc := "UpdateBlogPost"
+	log.Println("enter rest " + funcDesc)
+
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer func() {
 		if cancel != nil {
@@ -89,6 +100,7 @@ func UpdateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Po
 	}
 
 	log.Printf("response from the server: %v\n", res)
+	log.Println("exit rest " + funcDesc)
 	return models.Post{
 		ID:              res.PostId,
 		Title:           res.Title,
@@ -100,6 +112,9 @@ func UpdateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Po
 }
 
 func DeleteBlogPost(client blog.BlogServiceClient, id int32) (string, error) {
+	funcDesc := "DeleteBlogPost"
+	log.Println("enter rest " + funcDesc)
+
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer func() {
 		if cancel != nil {
@@ -115,5 +130,6 @@ func DeleteBlogPost(client blog.BlogServiceClient, id int32) (string, error) {
 	}
 
 	log.Printf("response from the server: %v\n", res)
+	log.Println("exit rest " + funcDesc)
 	return res.Message, nil
 }
