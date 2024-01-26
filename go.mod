@@ -3,6 +3,7 @@ module github.com/haakaashs/cloudbee
 go 1.21.3
 
 require (
+	github.com/go-playground/assert v1.2.1
 	github.com/gorilla/mux v1.8.1
 	google.golang.org/grpc v1.61.0
 	google.golang.org/protobuf v1.32.0

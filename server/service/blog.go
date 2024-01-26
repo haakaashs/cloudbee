@@ -50,9 +50,8 @@ func (s *server) ReadBlogPost(ctx context.Context, id *blog.Id) (*blog.Post, err
 
 	if post, ok = s.BlogPost[id.PostId]; !ok {
 		log.Println("error at server read blog post")
-		return nil, errors.New("post with id " + string(id.PostId) + " does not exist")
+		return nil, errors.New("post id does not exist")
 	}
-	log.Println(post)
 
 	return post, nil
 }
@@ -68,12 +67,9 @@ func (s *server) UpdateBlogPost(ctx context.Context, post *blog.Post) (*blog.Pos
 
 	if data, ok = s.BlogPost[post.PostId]; !ok {
 		log.Println("error at server update blog post")
-		log.Println(s.BlogPost)
-		log.Println(post)
-		log.Println(data)
-
-		return nil, errors.New("post with id " + string(post.PostId) + "does not exist")
+		return nil, errors.New("post id does not exist")
 	}
+
 	post.PublicationData = data.PublicationData
 	s.BlogPost[post.PostId] = post
 
@@ -86,7 +82,7 @@ func (s *server) DeleteBlogPost(ctx context.Context, id *blog.Id) (*blog.DeleteR
 
 	if _, ok := s.BlogPost[id.PostId]; !ok {
 		log.Println("error at server delete blog post")
-		return &blog.DeleteResponse{Message: "Failure"}, errors.New("post with id " + string(id.PostId) + " does not exist")
+		return &blog.DeleteResponse{Message: "Failure"}, errors.New("post id does not exist")
 	}
 	delete(s.BlogPost, id.PostId)
 	return &blog.DeleteResponse{Message: "Success"}, nil
