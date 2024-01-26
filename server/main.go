@@ -11,6 +11,7 @@ import (
 )
 
 func main() {
+	defer log.File.Close()
 
 	const port = ":50001"
 
@@ -30,11 +31,4 @@ func main() {
 		log.Generic.ERROR(err)
 		log.Generic.FATAL("unable to start the server " + port)
 	}
-
-	defer func() {
-		if recover := recover(); recover != nil {
-			log.Generic.WARN(recover)
-			log.Generic.WARN("recovered form panic")
-		}
-	}()
 }

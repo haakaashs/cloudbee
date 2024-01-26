@@ -29,7 +29,6 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	res, err := CreateBlogPost(Client, post)
 	if err != nil {
-		log.Generic.ERROR(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
 		return
@@ -56,7 +55,6 @@ func ReadPost(w http.ResponseWriter, r *http.Request) {
 
 	res, err := ReadBlogPost(Client, int32(id))
 	if err != nil {
-		log.Generic.ERROR(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
 		return
@@ -83,7 +81,6 @@ func UpdatePost(w http.ResponseWriter, r *http.Request) {
 
 	res, err := UpdateBlogPost(Client, post)
 	if err != nil {
-		log.Generic.ERROR(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
 		return
@@ -109,7 +106,6 @@ func DeletePost(w http.ResponseWriter, r *http.Request) {
 	}
 	res, err := DeleteBlogPost(Client, int32(id))
 	if err != nil {
-		log.Generic.ERROR(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
 		return

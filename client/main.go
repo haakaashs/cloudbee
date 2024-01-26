@@ -43,11 +43,4 @@ func main() {
 		log.Generic.ERROR(err)
 		log.Generic.FATAL("error starting rest web server at port " + restPort)
 	}
-
-	defer func() {
-		if recover := recover(); recover != nil {
-			log.Generic.WARN(recover)
-			log.Generic.WARN("recovered form panic")
-		}
-	}()
 }

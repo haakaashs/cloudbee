@@ -12,15 +12,17 @@ type GenericLogger struct {
 	fatalLogger *log.Logger
 }
 
+var File *os.File
 var Generic = NewGenericLogger()
 
 func NewGenericLogger() *GenericLogger {
 	flags := log.LstdFlags | log.Lshortfile
+	File, _ = os.Create("logger.log")
 	return &GenericLogger{
-		infoLogger:  log.New(os.Stdout, "INFO", flags),
-		warnLogger:  log.New(os.Stdout, "WARN", flags),
-		errorLogger: log.New(os.Stdout, "ERROR", flags),
-		fatalLogger: log.New(os.Stdout, "FATAL", flags),
+		infoLogger:  log.New(File, "INFO", flags),
+		warnLogger:  log.New(File, "WARN", flags),
+		errorLogger: log.New(File, "ERROR", flags),
+		fatalLogger: log.New(File, "FATAL", flags),
 	}
 }
 
