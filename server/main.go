@@ -1,9 +1,9 @@
 package main
 
 import (
-	"log"
 	"net"
 
+	"github.com/haakaashs/cloudbee/log"
 	"github.com/haakaashs/cloudbee/protos/blog"
 	"github.com/haakaashs/cloudbee/server/service"
 	"google.golang.org/grpc"
@@ -16,7 +16,8 @@ func main() {
 
 	listener, err := net.Listen("tcp", port)
 	if err != nil {
-		log.Fatalf("unable to listen on port: %s\n", err.Error())
+		log.Generic.ERROR(err)
+		log.Generic.FATAL("unable to listen on port " + port)
 	}
 
 	ser := grpc.NewServer()
@@ -24,14 +25,16 @@ func main() {
 	blog.RegisterBlogServiceServer(ser, service.NewBlogServer())
 	reflection.Register(ser)
 
-	log.Printf("server listening on port: %s\n", port)
+	log.Generic.INFO("server listening on port " + port)
 	if err := ser.Serve(listener); err != nil {
-		log.Fatalf("unable to start the server: %s\n", port)
+		log.Generic.ERROR(err)
+		log.Generic.FATAL("unable to start the server " + port)
 	}
 
 	defer func() {
 		if recover := recover(); recover != nil {
-			log.Println("recovered form panic")
+			log.Generic.WARN(recover)
+			log.Generic.WARN("recovered form panic")
 		}
 	}()
 }

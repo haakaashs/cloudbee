@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"errors"
-	"log"
 	"sync"
 
+	"github.com/haakaashs/cloudbee/log"
 	"github.com/haakaashs/cloudbee/protos/blog"
 )
 
@@ -24,14 +24,14 @@ func NewBlogServer() *server {
 
 func (s *server) CreateBlogPost(ctx context.Context, post *blog.Post) (*blog.Post, error) {
 	funcDesc := "CreateBlogPost"
-	log.Println("enter rest " + funcDesc)
+	log.Generic.INFO("enter rest " + funcDesc)
 
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	if out, ok := s.BlogPost[post.PostId]; ok {
 		err := errors.New("post already exist")
-		log.Println(err.Error())
+		log.Generic.ERROR(err)
 		return out, err
 	}
 
@@ -39,13 +39,13 @@ func (s *server) CreateBlogPost(ctx context.Context, post *blog.Post) (*blog.Pos
 	post.PostId = s.counter
 	s.BlogPost[post.PostId] = post
 
-	log.Println("exit rest " + funcDesc)
+	log.Generic.INFO("exit rest " + funcDesc)
 	return post, nil
 }
 
 func (s *server) ReadBlogPost(ctx context.Context, id *blog.Id) (*blog.Post, error) {
 	funcDesc := "ReadBlogPost"
-	log.Println("enter rest " + funcDesc)
+	log.Generic.INFO("enter rest " + funcDesc)
 
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -57,17 +57,17 @@ func (s *server) ReadBlogPost(ctx context.Context, id *blog.Id) (*blog.Post, err
 
 	if post, ok = s.BlogPost[id.PostId]; !ok {
 		err := errors.New("post id does not exist")
-		log.Println(err.Error())
+		log.Generic.ERROR(err)
 		return nil, err
 	}
 
-	log.Println("exit rest " + funcDesc)
+	log.Generic.INFO("exit rest " + funcDesc)
 	return post, nil
 }
 
 func (s *server) UpdateBlogPost(ctx context.Context, post *blog.Post) (*blog.Post, error) {
 	funcDesc := "UpdateBlogPost"
-	log.Println("enter rest " + funcDesc)
+	log.Generic.INFO("enter rest " + funcDesc)
 
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -79,30 +79,30 @@ func (s *server) UpdateBlogPost(ctx context.Context, post *blog.Post) (*blog.Pos
 
 	if data, ok = s.BlogPost[post.PostId]; !ok {
 		err := errors.New("post id does not exist")
-		log.Println(err.Error())
+		log.Generic.ERROR(err)
 		return nil, err
 	}
 
 	post.PublicationData = data.PublicationData
 	s.BlogPost[post.PostId] = post
 
-	log.Println("exit rest " + funcDesc)
+	log.Generic.INFO("exit rest " + funcDesc)
 	return post, nil
 }
 
 func (s *server) DeleteBlogPost(ctx context.Context, id *blog.Id) (*blog.DeleteResponse, error) {
 	funcDesc := "DeleteBlogPost"
-	log.Println("enter rest " + funcDesc)
+	log.Generic.INFO("enter rest " + funcDesc)
 
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	if _, ok := s.BlogPost[id.PostId]; !ok {
 		err := errors.New("post id does not exist")
-		log.Println(err.Error())
+		log.Generic.ERROR(err)
 		return &blog.DeleteResponse{Message: "Failure"}, err
 	}
 	delete(s.BlogPost, id.PostId)
-	log.Println("exit rest " + funcDesc)
+	log.Generic.INFO("exit rest " + funcDesc)
 	return &blog.DeleteResponse{Message: "Success"}, nil
 }

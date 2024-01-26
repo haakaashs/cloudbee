@@ -3,16 +3,17 @@ package grpcservices
 import (
 	"context"
 	"errors"
-	"log"
+	"fmt"
 	"time"
 
 	"github.com/haakaashs/cloudbee/client/models"
+	"github.com/haakaashs/cloudbee/log"
 	"github.com/haakaashs/cloudbee/protos/blog"
 )
 
 func CreateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Post, error) {
 	funcDesc := "CreateBlogPost"
-	log.Println("enter rest " + funcDesc)
+	log.Generic.INFO("enter rest " + funcDesc)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer func() {
@@ -30,19 +31,19 @@ func CreateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Po
 	})
 
 	if err != nil {
-		log.Println(err.Error())
+		log.Generic.ERROR(err)
 		return models.Post{}, err
 	}
 
 	input.ID = res.PostId
-	log.Printf("response from the server: %v\n", res)
-	log.Println("exit rest " + funcDesc)
+	log.Generic.INFO(fmt.Sprintf("response from the server: %v\n", res))
+	log.Generic.INFO("exit rest " + funcDesc)
 	return input, nil
 }
 
 func ReadBlogPost(client blog.BlogServiceClient, id int32) (models.Post, error) {
 	funcDesc := "ReadBlogPost"
-	log.Println("enter rest " + funcDesc)
+	log.Generic.INFO("enter rest " + funcDesc)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer func() {
@@ -54,11 +55,11 @@ func ReadBlogPost(client blog.BlogServiceClient, id int32) (models.Post, error) 
 	res, err := client.ReadBlogPost(ctx, &blog.Id{PostId: id})
 
 	if err != nil {
-		log.Println(err.Error())
+		log.Generic.ERROR(err)
 		return models.Post{}, err
 	}
-	log.Printf("response from the server: %v\n", res)
-	log.Println("exit rest " + funcDesc)
+	log.Generic.INFO(fmt.Sprintf("response from the server: %v\n", res))
+	log.Generic.INFO("exit rest " + funcDesc)
 	return models.Post{
 		ID:              res.PostId,
 		Title:           res.Title,
@@ -71,7 +72,7 @@ func ReadBlogPost(client blog.BlogServiceClient, id int32) (models.Post, error) 
 
 func UpdateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Post, error) {
 	funcDesc := "UpdateBlogPost"
-	log.Println("enter rest " + funcDesc)
+	log.Generic.INFO("enter rest " + funcDesc)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer func() {
@@ -81,9 +82,9 @@ func UpdateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Po
 	}()
 
 	if input.PublicationData != "" {
-		cusErr := errors.New("error in input data publication should not be updated")
-		log.Println(cusErr)
-		return models.Post{}, cusErr
+		err := errors.New("error in input data publication should not be updated")
+		log.Generic.ERROR(err)
+		return models.Post{}, err
 	}
 
 	res, err := client.UpdateBlogPost(ctx, &blog.Post{
@@ -95,12 +96,12 @@ func UpdateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Po
 	})
 
 	if err != nil {
-		log.Println(err.Error())
+		log.Generic.ERROR(err)
 		return models.Post{}, err
 	}
 
-	log.Printf("response from the server: %v\n", res)
-	log.Println("exit rest " + funcDesc)
+	log.Generic.INFO(fmt.Sprintf("response from the server: %v\n", res))
+	log.Generic.INFO("exit rest " + funcDesc)
 	return models.Post{
 		ID:              res.PostId,
 		Title:           res.Title,
@@ -113,7 +114,7 @@ func UpdateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Po
 
 func DeleteBlogPost(client blog.BlogServiceClient, id int32) (string, error) {
 	funcDesc := "DeleteBlogPost"
-	log.Println("enter rest " + funcDesc)
+	log.Generic.INFO("enter rest " + funcDesc)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer func() {
@@ -125,11 +126,11 @@ func DeleteBlogPost(client blog.BlogServiceClient, id int32) (string, error) {
 	res, err := client.DeleteBlogPost(ctx, &blog.Id{PostId: id})
 
 	if err != nil {
-		log.Println(err.Error())
+		log.Generic.ERROR(err)
 		return res.Message, err
 	}
 
-	log.Printf("response from the server: %v\n", res)
-	log.Println("exit rest " + funcDesc)
+	log.Generic.INFO(fmt.Sprintf("response from the server: %v\n", res))
+	log.Generic.INFO("exit rest " + funcDesc)
 	return res.Message, nil
 }
