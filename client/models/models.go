@@ -5,6 +5,6 @@ type Post struct {
 	Title           string   `json:"title,omitempty"`
 	Content         string   `json:"content,omitempty"`
 	Author          string   `json:"author,omitempty"`
-	PublicationData string   `json:"-"`
+	PublicationDate string   `json:"-"`
 	Tags            []string `json:"tags,omitempty"`
 }

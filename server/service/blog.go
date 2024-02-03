@@ -83,7 +83,7 @@ func (s *server) UpdateBlogPost(ctx context.Context, post *blog.Post) (*blog.Pos
 		return nil, err
 	}
 
-	post.PublicationData = data.PublicationData
+	post.PublicationDate = data.PublicationDate
 	s.BlogPost[post.PostId] = post
 
 	log.Generic.INFO("exit server " + funcDesc)

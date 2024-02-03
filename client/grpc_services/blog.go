@@ -26,7 +26,7 @@ func CreateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Po
 		Title:           input.Title,
 		Content:         input.Content,
 		Author:          input.Author,
-		PublicationData: time.Now().String(),
+		PublicationDate: time.Now().String(),
 		Tags:            input.Tags,
 	})
 
@@ -65,7 +65,7 @@ func ReadBlogPost(client blog.BlogServiceClient, id int32) (models.Post, error) 
 		Title:           res.Title,
 		Content:         res.Content,
 		Author:          res.Author,
-		PublicationData: res.PublicationData,
+		PublicationDate: res.PublicationDate,
 		Tags:            res.Tags,
 	}, nil
 }
@@ -81,7 +81,7 @@ func UpdateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Po
 		}
 	}()
 
-	if input.PublicationData != "" {
+	if input.PublicationDate != "" {
 		err := errors.New("error in input data publication should not be updated")
 		log.Generic.ERROR(err)
 		return models.Post{}, err
@@ -107,7 +107,7 @@ func UpdateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Po
 		Title:           res.Title,
 		Content:         res.Content,
 		Author:          res.Author,
-		PublicationData: res.PublicationData,
+		PublicationDate: res.PublicationDate,
 		Tags:            res.Tags,
 	}, nil
 }
