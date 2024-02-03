@@ -24,7 +24,7 @@ func NewBlogServer() *server {
 
 func (s *server) CreateBlogPost(ctx context.Context, post *blog.Post) (*blog.Post, error) {
 	funcDesc := "CreateBlogPost"
-	log.Generic.INFO("enter rest " + funcDesc)
+	log.Generic.INFO("enter server " + funcDesc)
 
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -39,13 +39,13 @@ func (s *server) CreateBlogPost(ctx context.Context, post *blog.Post) (*blog.Pos
 	post.PostId = s.counter
 	s.BlogPost[post.PostId] = post
 
-	log.Generic.INFO("exit rest " + funcDesc)
+	log.Generic.INFO("exit server " + funcDesc)
 	return post, nil
 }
 
 func (s *server) ReadBlogPost(ctx context.Context, id *blog.Id) (*blog.Post, error) {
 	funcDesc := "ReadBlogPost"
-	log.Generic.INFO("enter rest " + funcDesc)
+	log.Generic.INFO("enter server " + funcDesc)
 
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -61,13 +61,13 @@ func (s *server) ReadBlogPost(ctx context.Context, id *blog.Id) (*blog.Post, err
 		return nil, err
 	}
 
-	log.Generic.INFO("exit rest " + funcDesc)
+	log.Generic.INFO("exit server " + funcDesc)
 	return post, nil
 }
 
 func (s *server) UpdateBlogPost(ctx context.Context, post *blog.Post) (*blog.Post, error) {
 	funcDesc := "UpdateBlogPost"
-	log.Generic.INFO("enter rest " + funcDesc)
+	log.Generic.INFO("enter server " + funcDesc)
 
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -86,13 +86,13 @@ func (s *server) UpdateBlogPost(ctx context.Context, post *blog.Post) (*blog.Pos
 	post.PublicationData = data.PublicationData
 	s.BlogPost[post.PostId] = post
 
-	log.Generic.INFO("exit rest " + funcDesc)
+	log.Generic.INFO("exit server " + funcDesc)
 	return post, nil
 }
 
 func (s *server) DeleteBlogPost(ctx context.Context, id *blog.Id) (*blog.DeleteResponse, error) {
 	funcDesc := "DeleteBlogPost"
-	log.Generic.INFO("enter rest " + funcDesc)
+	log.Generic.INFO("enter server " + funcDesc)
 
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -103,6 +103,6 @@ func (s *server) DeleteBlogPost(ctx context.Context, id *blog.Id) (*blog.DeleteR
 		return &blog.DeleteResponse{Message: "Failure"}, err
 	}
 	delete(s.BlogPost, id.PostId)
-	log.Generic.INFO("exit rest " + funcDesc)
+	log.Generic.INFO("exit server " + funcDesc)
 	return &blog.DeleteResponse{Message: "Success"}, nil
 }

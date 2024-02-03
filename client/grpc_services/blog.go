@@ -13,7 +13,7 @@ import (
 
 func CreateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Post, error) {
 	funcDesc := "CreateBlogPost"
-	log.Generic.INFO("enter rest " + funcDesc)
+	log.Generic.INFO("enter client " + funcDesc)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer func() {
@@ -37,13 +37,13 @@ func CreateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Po
 
 	input.ID = res.PostId
 	log.Generic.INFO(fmt.Sprintf("response from the server: %v\n", res))
-	log.Generic.INFO("exit rest " + funcDesc)
+	log.Generic.INFO("exit client " + funcDesc)
 	return input, nil
 }
 
 func ReadBlogPost(client blog.BlogServiceClient, id int32) (models.Post, error) {
 	funcDesc := "ReadBlogPost"
-	log.Generic.INFO("enter rest " + funcDesc)
+	log.Generic.INFO("enter client " + funcDesc)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer func() {
@@ -59,7 +59,7 @@ func ReadBlogPost(client blog.BlogServiceClient, id int32) (models.Post, error) 
 		return models.Post{}, err
 	}
 	log.Generic.INFO(fmt.Sprintf("response from the server: %v\n", res))
-	log.Generic.INFO("exit rest " + funcDesc)
+	log.Generic.INFO("exit client " + funcDesc)
 	return models.Post{
 		ID:              res.PostId,
 		Title:           res.Title,
@@ -72,7 +72,7 @@ func ReadBlogPost(client blog.BlogServiceClient, id int32) (models.Post, error) 
 
 func UpdateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Post, error) {
 	funcDesc := "UpdateBlogPost"
-	log.Generic.INFO("enter rest " + funcDesc)
+	log.Generic.INFO("enter client " + funcDesc)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer func() {
@@ -101,7 +101,7 @@ func UpdateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Po
 	}
 
 	log.Generic.INFO(fmt.Sprintf("response from the server: %v\n", res))
-	log.Generic.INFO("exit rest " + funcDesc)
+	log.Generic.INFO("exit client " + funcDesc)
 	return models.Post{
 		ID:              res.PostId,
 		Title:           res.Title,
@@ -114,7 +114,7 @@ func UpdateBlogPost(client blog.BlogServiceClient, input models.Post) (models.Po
 
 func DeleteBlogPost(client blog.BlogServiceClient, id int32) (string, error) {
 	funcDesc := "DeleteBlogPost"
-	log.Generic.INFO("enter rest " + funcDesc)
+	log.Generic.INFO("enter client " + funcDesc)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer func() {
@@ -131,6 +131,6 @@ func DeleteBlogPost(client blog.BlogServiceClient, id int32) (string, error) {
 	}
 
 	log.Generic.INFO(fmt.Sprintf("response from the server: %v\n", res))
-	log.Generic.INFO("exit rest " + funcDesc)
+	log.Generic.INFO("exit client " + funcDesc)
 	return res.Message, nil
 }
